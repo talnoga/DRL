@@ -1,1 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
 
+button {
+    margin: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Custom bar colors */
+.program-bar { fill: #BCA9F5 !important; }  /* Blue */
+.project-bar { fill: #FF7F00 !important; }  /* Orange */
+.milestone-bar { fill: #999999 !important; }  /* Gray */
+.task-bar { fill: #4DAF4A !important; }  /* Green */
+
+/* Progress bar lighter colors */
+.program-progress { fill: #9683CF !important; }
+.project-progress { fill: #FFA54F !important; }
+.milestone-progress { fill: #CCCCCC !important; }
+.task-progress { fill: #6AC76A !important; }
+
+/* Milestone Diamond */
+.milestone-icon {
+    fill: white !important;
+    stroke: #999999 !important;
+    stroke-width: 2px;
+}
+/* Time Labels */
+.custom-time-label {
+    font-size: 12px;
+    font-weight: bold;
+    fill: #333;
+}
