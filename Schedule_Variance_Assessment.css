@@ -1,26 +1,119 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
+    margin: 5px;
 }
 
-button {
-    margin: 5px;
-    padding: 8px 12px;
-    font-size: 14px;
-    cursor: pointer;
+/* Center the project title */
+.project-title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Compact header styling */
+.header-container {
+    padding: 8px; /* Increase padding for more space */
+    min-height: 60px; /* Set a higher minimum height */
+    background: #f8f9fa;
+    border-bottom: 1px solid #cccccc; /* Thin gray line */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Section Headers */
+.section-header {
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2px;
+    color: #333;
+}
+
+/* Button styling */
+.btn {
+    margin: 2px;
+    font-size: 10px;
+    padding: 3px 6px;
+}
+
+/* Legend container - fits in one row */
+.legend-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Program Legend */
+.legend-program {
+    background: linear-gradient(to right, #BCA9F5, #9683CF); /* Program Bar to Progress */
+}
+
+/* Project Legend */
+.legend-project {
+    background: linear-gradient(to right, #FF7F00, #FFA54F); /* Project Bar to Progress */
+}
+
+/* Milestone Legend */
+.legend-milestone {
+    background: linear-gradient(to right, #999999, #CCCCCC); /* Milestone Bar to Progress */
+}
+
+/* Task Legend */
+.legend-task {
+    background: linear-gradient(to right, #4DAF4A, #6AC76A); /* Task Bar to Progress */
+}
+
+/* Legend item with bar and progress background */
+.legend-item {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px; /* Slightly wider for better visibility */
+    height: 25px; /* Increased height */
+    border-radius: 20px; /* More rounded */
+    overflow: hidden;
+}
+
+/* General Legend Item Styling */
+.legend-bar {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    opacity: 1;
+}
+
+/* Icons inside the legend bars */
+.legend-item span.icon {
+    position: relative;
+    z-index: 2;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Gantt container should take full width */
+#gantt-container {
+    margin-top: 5px; /* Creates space below header */
+    width: 100%;
+    height: 100%;
 }
 
 /* Custom bar colors */
-.program-bar { fill: #BCA9F5 !important; }  /* Blue */
-.project-bar { fill: #FF7F00 !important; }  /* Orange */
-.milestone-bar { fill: #999999 !important; }  /* Gray */
-.task-bar { fill: #4DAF4A !important; }  /* Green */
+.program-bar { fill: #BCA9F5 !important; background: #BCA9F5; }  
+.project-bar { fill: #FF7F00 !important; background: #FF7F00; }  
+.milestone-bar { fill: #999999 !important; background: #999999; }  
+.task-bar { fill: #4DAF4A !important; background: #4DAF4A; }  
 
 /* Progress bar lighter colors */
-.program-progress { fill: #9683CF !important; }
-.project-progress { fill: #FFA54F !important; }
-.milestone-progress { fill: #CCCCCC !important; }
-.task-progress { fill: #6AC76A !important; }
+.program-progress { fill: #9683CF !important; background: #9683CF; }
+.project-progress { fill: #FFA54F !important; background: #FFA54F; }
+.milestone-progress { fill: #CCCCCC !important; background: #CCCCCC; }
+.task-progress { fill: #6AC76A !important; background: #6AC76A; }
 
 /* Milestone Diamond */
 .milestone-icon {
@@ -28,9 +121,88 @@ button {
     stroke: #999999 !important;
     stroke-width: 2px;
 }
+
 /* Time Labels */
 .custom-time-label {
     font-size: 12px;
     font-weight: bold;
     fill: #333;
+}
+
+
+/* Primary Button - Light Blue */
+.btn-primary {
+    --bs-btn-bg: #B0D4FF !important; /* Light Blue */
+    --bs-btn-border-color: #B0D4FF !important;
+    --bs-btn-hover-bg: #92C2FF !important; /* Slightly Darker Blue on Hover */
+    --bs-btn-hover-border-color: #92C2FF !important;
+    --bs-btn-color: #003366 !important; /* Dark Blue Text */
+    border-radius: 16px !important;
+}
+
+/* Secondary Button - Light Gray */
+.btn-secondary {
+    --bs-btn-bg: #E0E0E0 !important; /* Light Gray */
+    --bs-btn-border-color: #E0E0E0 !important;a
+    --bs-btn-hover-bg: #CFCFCF !important; /* Slightly Darker Gray on Hover */
+    --bs-btn-hover-border-color: #CFCFCF !important;
+    --bs-btn-color: #333333 !important; /* Dark Gray Text */
+    border-radius: 16px !important;
+}
+
+
+/* Light Blue Background for the Timeline */
+.grid-background {
+    fill: #EAF4FF !important; /* Soft Light Blue */
+}
+
+/* Light Blue Grid Lines */
+.grid-header {
+    stroke: navy !important; /* Lighter Blue for Grid Lines */
+	fill: #EAF4FF !important; /* Soft Light Blue */
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Make sure it's above other elements */
+}
+.grid-row {
+    stroke: #BFDFFF !important; /* Lighter Blue for Grid Lines */
+}
+
+
+/* Light Blue Column Headers (Time Labels) */
+.header {
+    background-color: #D0E8FF !important; /* Slightly Darker Blue for Contrast */
+    color: #003366 !important; /* Darker Text for Readability */
+}
+
+/* Adjust Task Bar Labels for Contrast */
+.bar-label {
+    fill: #003366 !important; /* Dark Blue for Text */
+    font-weight: bold;
+}
+
+#gantt-container .gantt .lower-text, .gantt .upper-text {
+    font-size: 12px;
+    text-anchor: middle;
+    font-weight: bold;
+}
+
+.gantt-wrapper {
+    overflow-x: auto;
+    white-space: nowrap;
+    height: calc(100vh - 150px);
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.gantt-container {
+    width: 100%;
+    height: 100%;
+}
+
+.gantt-title {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
