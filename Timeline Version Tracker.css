@@ -1,7 +1,10 @@
 /* Ensure table takes full width */
 .table-container {
     width: 100%;
+    max-height: 600px; /* 🔹 Set a height to enable scrolling */
+    overflow-y: auto; /* 🔹 Enables vertical scrolling */
     overflow-x: auto;
+    border: 1px solid #ddd;
 }
 
 /* Standard table adjustments */
@@ -12,6 +15,22 @@
     text-align: left;
     font-size: 12px;
     table-layout: fixed;
+}
+
+/* 🔹 Make the table header sticky */
+.custom-table thead {
+    position: sticky;
+    top: 0;
+    background-color: #f4f4f4; /* Ensures background remains visible */
+    z-index: 10; /* Keeps the header above table content */
+}
+
+/* 🔹 Ensure the first row of thead remains sticky */
+.custom-table thead tr {
+    position: sticky;
+    top: 0;
+    background-color: #f4f4f4;
+    z-index: 10;
 }
 
 /* Borders and padding adjustments */
@@ -42,7 +61,6 @@
     font-weight: bold !important; /* Makes text bold */
 }
 
-
 /* Styling for headers */
 .custom-table th {
     background-color: #f4f4f4;
@@ -65,15 +83,44 @@
     background-color: #e8f4ff;
 }
 
-
-/* Removes underline & default blue color for links */
-.custom-link {
-    text-decoration: none !important;
-    color: inherit !important;
-    cursor: pointer !important;
+/* Message Styling */
+.message {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
 }
 
-/* Change cursor to pointer when hovering over links */
-.custom-link:hover {
-    text-decoration: none;
+/* Highlight the entire row when hovered */
+.custom-table tbody tr:hover {
+    background-color: #f0f8ff; /* Light blue background */
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Tooltip Styling */
+.info-icon {
+    cursor: pointer;
+    font-size: 12px;
+    color: #007BFF;
+    margin-left: 4px;
+    display: inline-block;
+}
+
+.tooltip-box {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+/* Tooltip Visible */
+.tooltip-box.show {
+    visibility: visible;
+    opacity: 1;
 }
