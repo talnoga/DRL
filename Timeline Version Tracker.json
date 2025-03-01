@@ -1,0 +1,4 @@
+{
+  "currentProgram": {{ JsonObject(CurrentObject(),"Name,SYSID,EntityType,externalid,StartDate,DueDate,C_CRStartDate,C_CRDueDate,PercentCompleted")},
+  "relatedProjectsVersions":{{JsonObjects("$R_ProgramVersions","Name,SYSID,externalid,Description,C_Version,C_ProgramVersionLabel")}
+}
