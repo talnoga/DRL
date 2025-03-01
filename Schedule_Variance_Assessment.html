@@ -1,9 +1,62 @@
-<h2>Program → Projects → Milestones → Tasks</h2>
-    
-<button id="dayView" data-view="Day">Day</button>
-<button id="weekView" data-view="Week">Week</button>
-<button id="monthView" data-view="Month">Month</button>
-<button id="quarterView" data-view="Quarter">Quarter</button>
-<button id="yearView" data-view="Year">Year</button>
+<!-- Project Title (Centered) -->
+<h2 class="project-title">{$Name}</h2>
 
-<div id="gantt-container"></div> <!-- Gantt Chart -->
+<!-- Compact Header Inside iframe -->
+<div class="container-fluid header-container">
+    <div class="row align-items-center">
+        <!-- Time Filters -->
+        <div class="col-auto section-header">Time Filters</div>
+        <div class="col-auto">
+            <button id="dayView" data-view="Day" class="btn btn-primary btn-sm">Day</button>
+            <button id="weekView" data-view="Week" class="btn btn-primary btn-sm">Week</button>
+            <button id="monthView" data-view="Month" class="btn btn-primary btn-sm">Month</button>
+            <button id="quarterView" data-view="Quarter" class="btn btn-primary btn-sm">Quarter</button>
+            <button id="yearView" data-view="Year" class="btn btn-primary btn-sm">Year</button>
+        </div>
+
+        <!-- Type Filters -->
+        <div class="col-auto section-header">Type Filters</div>
+        <div class="col-auto">
+            <button id="allFilter" data-filter="" class="btn btn-secondary btn-sm">All</button>
+            <button id="programFilter" data-filter="program" class="btn btn-secondary btn-sm">💼 Program</button>
+            <button id="projectFilter" data-filter="project" class="btn btn-secondary btn-sm">📁 Project</button>
+            <button id="milestoneFilter" data-filter="milestone" class="btn btn-secondary btn-sm">🔷 Milestone</button>
+            <button id="taskFilter" data-filter="task" class="btn btn-secondary btn-sm">✅ Task</button>
+        </div>
+
+        <!-- Legend -->
+        <!-- Legend -->
+        <div class="col-auto section-header">Legend</div>
+        <div class="col-auto legend-container">
+            <div class="legend-item legend-program">
+                <span class="icon">💼</span>
+            </div>
+            <div class="legend-item legend-project">
+                <span class="icon">📁</span>
+            </div>
+            <div class="legend-item legend-milestone">
+                <span class="icon">🔷</span>
+            </div>
+            <div class="legend-item legend-task">
+                <span class="icon">✅</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dual Gantt Chart Container -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Gantt Chart -->
+        <div class="col-md-6 gantt-wrapper">
+            <h3 class="gantt-title">Current Dates</h3>
+            <div id="gantt-container-left" class="gantt-container"></div>
+        </div>
+
+        <!-- Right Gantt Chart -->
+        <div class="col-md-6 gantt-wrapper">
+            <h3 class="gantt-title">CR Dates</h3>
+            <div id="gantt-container-right" class="gantt-container"></div>
+        </div>
+    </div>
+</div>
