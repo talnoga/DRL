@@ -6,11 +6,12 @@ var relatedProjectsVersions = data.relatedProjectsVersions;
 
 // Data Model for Projects, Milestones, and Versions
         class Version {
-			constructor(versionLabel, versionNumber, startDate, dueDate) {
+			constructor(versionLabel, versionNumber, startDate, dueDate,description) {
 				this.versionLabel = versionLabel; // Unique identifier for the version
 				this.versionNumber = versionNumber; // Used only for sorting
 				this.startDate = startDate;
 				this.dueDate = dueDate;
+				this.description=description;
 			}
 		}
 
@@ -56,9 +57,25 @@ var relatedProjectsVersions = data.relatedProjectsVersions;
     ));
 
     for (let i = 1; i <= maxVersions; i++) {
+		let versionDetails = getVersionDetails(i); // Retrieve version details (label & description)
+        
         let th = document.createElement("th");
         th.setAttribute("colspan", "2");
-        th.innerText = `Version ${i}`;
+		th.classList.add("version-header");
+		
+		// Create the label span
+        let versionLabelSpan = document.createElement("span");
+        versionLabelSpan.innerText = versionDetails.versionLabel;
+		
+		// Create the info icon
+        let infoIcon = document.createElement("span");
+        infoIcon.innerHTML = " ℹ️"; // Unicode for info icon
+        infoIcon.classList.add("info-icon");
+        infoIcon.setAttribute("data-tooltip", versionDetails.description); // Store description in a data attribute
+        
+		// Append elements
+        th.appendChild(versionLabelSpan);
+        th.appendChild(infoIcon);
         tableHeaders.appendChild(th);
 
         let startTh = document.createElement("th");
@@ -141,6 +158,50 @@ var relatedProjectsVersions = data.relatedProjectsVersions;
         });
     });
     API.Utils.endLoading();
+	// Initialize tooltips
+    initializeTooltips();
+}
+
+/**
+ * Retrieves the version object (versionLabel & description) for a given version number.
+ */
+function getVersionDetails(versionIndex) {
+    for (let project of projectData) {
+        for (let milestone of project.milestones) {
+            let versionsArray = Object.values(milestone.versions).flat();
+            let version = versionsArray.find(v => v.versionNumber === versionIndex);
+            if (version) {
+                return {
+                    versionLabel: version.versionLabel,
+                    description: version.description || "No description available."
+                };
+            }
+        }
+    }
+    return {
+        versionLabel: "Unknown Version",
+        description: "No description available."
+    };
+}
+
+function initializeTooltips() {
+    let tooltip = document.createElement("div");
+    tooltip.classList.add("tooltip-box");
+    document.body.appendChild(tooltip);
+
+    document.querySelectorAll(".info-icon").forEach(icon => {
+        icon.addEventListener("mouseenter", function (event) {
+            tooltip.innerText = this.getAttribute("data-tooltip");
+            let rect = this.getBoundingClientRect();
+            tooltip.style.top = rect.top + window.scrollY - 30 + "px";
+            tooltip.style.left = rect.left + "px";
+            tooltip.classList.add("show");
+        });
+
+        icon.addEventListener("mouseleave", function () {
+            tooltip.classList.remove("show");
+        });
+    });
 }
 
 
@@ -154,7 +215,7 @@ $(function () {
  */
 function VersionQueryBuilder(versionID) {
    const pagingSuffix = " limit 5000 offset ";
-   return "Select SYSID,Name,StartDate,DueDate,C_CRDueDate,C_CRStartDate,C_Scenario1DueDate,C_Scenario1StartDate,C_Scenario2DueDate,C_Scenario2StartDate,C_Scenario3DueDate,C_Scenario3StartDate,VersionSourceObject.StartDate,VersionSourceObject.DueDate,VersionSourceObject.SYSID,Version,Version.C_Version,Version.Project.SYSID,Version.Project.externalid,Version.Project.Name,Version.C_ProgramVersionLabel,Version.CreatedOn,Version.CreatedBy.DisplayName  from MilestoneVersion where Version='/Versions/"+versionID+"'"+" limit 5000 offset "; 
+   return "Select SYSID,Name,StartDate,DueDate,C_CRDueDate,C_CRStartDate,C_Scenario1DueDate,C_Scenario1StartDate,C_Scenario2DueDate,C_Scenario2StartDate,C_Scenario3DueDate,C_Scenario3StartDate,VersionSourceObject.StartDate,VersionSourceObject.DueDate,VersionSourceObject.SYSID,Version,Version.Description,Version.C_Version,Version.Project.SYSID,Version.Project.externalid,Version.Project.Name,Version.C_ProgramVersionLabel,Version.CreatedOn,Version.CreatedBy.DisplayName  from MilestoneVersion where Version='/Versions/"+versionID+"'"+" limit 5000 offset "; 
 }
   
   
@@ -186,6 +247,7 @@ async function loadAllVersionsData() {
     }
     console.log("✅ All versions loaded!", projectData);
     generateTable();
+	updateDisplay(); // Toggle visibility of table and messages
 }
 
 
@@ -218,6 +280,7 @@ function processVersionData(results, versionID) {
         let startDate = formatDate(item?.StartDate || item?.C_CRStartDate);
         let dueDate = formatDate(item?.DueDate || item?.C_CRDueDate);
         let versionLabel = item?.Version?.C_ProgramVersionLabel || "Unknown Version"; // Unique identifier
+		let versionDescription= item?.Version?.Description||"";
         let versionNumber = item?.Version?.C_Version || 0; // Used only for sorting
         let versionStartDate = formatDate(
             item?.StartDate || item?.C_Scenario1StartDate || item?.C_Scenario2StartDate
@@ -251,7 +314,7 @@ function processVersionData(results, versionID) {
         // Check if the version already exists (Prevent duplicate versions)
         let existingVersion = milestone.versions[versionLabel].find(v => v.versionLabel === versionLabel);
         if (!existingVersion) {
-            let version = new Version(versionLabel, versionNumber, versionStartDate, versionDueDate);
+			let version = new Version(versionLabel, versionNumber, versionStartDate, versionDueDate,versionDescription);
             milestone.versions[versionLabel].push(version);
         }
 
@@ -271,4 +334,20 @@ function formatDate(dateString) {
 
     const options = { day: "2-digit", month: "short", year: "numeric" };
     return date.toLocaleDateString("en-GB", options).replace(" ", "-"); // Converts to dd-MMM-yyyy
+}
+
+
+// Show/hide messages & table based on data availability
+function updateDisplay() {
+    let tableContainer = document.getElementById("tableContainer");
+    let loadingMessage = document.getElementById("loadingMessage");
+    let noDataMessage = document.getElementById("noDataMessage");
+
+    if (projectData.length > 0) {
+        tableContainer.style.display = "block";
+        noDataMessage.style.display = "none";
+    } else {
+        noDataMessage.style.display = "block";
+    }
+    loadingMessage.style.display = "none";
 }
