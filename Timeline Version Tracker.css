@@ -1,0 +1,79 @@
+/* Ensure table takes full width */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* Standard table adjustments */
+.custom-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+    font-size: 12px;
+    table-layout: fixed;
+}
+
+/* Borders and padding adjustments */
+.custom-table th, .custom-table td {
+    border: 1px solid #ddd;
+    padding: 4px 6px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Fixed width for Project and Milestone columns */
+.custom-table th:first-child, .custom-table td:first-child {
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+}
+
+.custom-table th:nth-child(2), .custom-table td:nth-child(2) {
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+}
+
+/* 🔥 Apply center alignment using a class instead of nth-child */
+.date-column {
+    text-align: center !important;
+    vertical-align: middle !important;
+    font-weight: bold !important; /* Makes text bold */
+}
+
+
+/* Styling for headers */
+.custom-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    border: 1px solid #ddd;
+}
+
+/* Apply rounded corners only to first and last headers */
+.custom-table th.round-left {
+    border-top-left-radius: 10px;
+}
+
+.custom-table th.round-right {
+    border-top-right-radius: 10px;
+}
+
+/* Project row styling */
+.project-header {
+    font-weight: bold;
+    background-color: #e8f4ff;
+}
+
+
+/* Removes underline & default blue color for links */
+.custom-link {
+    text-decoration: none !important;
+    color: inherit !important;
+    cursor: pointer !important;
+}
+
+/* Change cursor to pointer when hovering over links */
+.custom-link:hover {
+    text-decoration: none;
+}
